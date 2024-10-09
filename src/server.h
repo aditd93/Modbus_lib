@@ -49,6 +49,8 @@ typedef struct Modbus_Server {
 DataBank *create_DB(int num_coils, int num_discrete_inputs, int num_input_registers, int num_holding_registers);
 Modbus_Server *create_server(int port, char *server_ip, int num_coils, int num_discrete_inputs, int num_input_registers, int num_holding_registers);
 void server_listen(Modbus_Server* mbs);
+int connect_server(Modbus_Server *mbs);
+void close_server(Modbus_Server *mbs);
 
 
 #endif /* SERVER_HEADER_H_ */
