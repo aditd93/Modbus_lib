@@ -10,7 +10,7 @@
 ADU *request_read(int function_code, uint16_t target_address, uint16_t quantity) { 
     /* 
         read request initiated by Client. Reading requests need a target address of the desired data registers and the range of the addresses to receive.
-        All addresses ranges are the same for all registers 0-65536
+        All addresses ranges are the same for all registers 0-65535
         Function codes:
         READ_COIL 0x01
         READ_DISCRETE_INPUTS 0x02
