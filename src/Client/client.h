@@ -24,13 +24,8 @@
 typedef struct Modbus_Server {
     char* IP; // Server's IP
     int port; // Server port=502 default
+    int socket;
 } Modbus_Server;
-
-typedef struct Modbus_Client {
-    
-} Modbus_Client;
-
-
 
 /*  
     Notes:
@@ -38,6 +33,8 @@ typedef struct Modbus_Client {
 */
 
 // functions
+Modbus_Server *create_server(char *server_ip, int port);
+void connect_to_server(Modbus_Server *MBS);
 
 
 #endif /* CLIENT_HEADER_H_ */

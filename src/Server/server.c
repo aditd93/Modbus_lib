@@ -1,5 +1,5 @@
 #include "server.h"
-#include "ADU.h"
+#include "../ADU.h"
 
 /*
    |--------| Request      ========>   Indication |--------|
@@ -55,6 +55,7 @@ void server_listen(Modbus_Server *mbs) {
         perror("listen to incoming connections requests failed, exit program\n");
         exit(EXIT_FAILURE);
     }
+    printf("Listenning to incoming TCP requests...\n");
 }
 
 int connect_server(Modbus_Server *mbs) {
