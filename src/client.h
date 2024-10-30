@@ -21,6 +21,11 @@
 #define BUFFER 256
 #define SERVER_PORT 502
 
+typedef struct Modbus_Server {
+    char* IP; // Server's IP
+    int port; // Server port=502 default
+} Modbus_Server;
+
 typedef struct Modbus_Client {
     
 } Modbus_Client;
