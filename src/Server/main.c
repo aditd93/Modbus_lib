@@ -33,21 +33,77 @@ int main(int argc, char **argv) {
     }
 
     // Menu for server
-    Modbus_Server *MBS = create_server(port,server_ip,2,2,2,2); // ModBus Server 
-    MBS->databank->input_registers[0] = 25;
-    MBS->databank->input_registers[1] = 16;
-    uint16_t buffer[2];
-    buffer[0] = MBS->databank->input_registers[0];
-    buffer[1] = MBS->databank->input_registers[1];
-    printf("First input_reg: %d\tSecond input_reg:%d\n",MBS->databank->input_registers[0],MBS->databank->input_registers[1]);
-    server_listen(MBS);
-    connect_server(MBS);
-    size_t bytes2send = sizeof(buffer);
-    size_t bytes = send(MBS->socket,buffer,bytes2send,0);
-    if(bytes < 0) {
-        perror("Failed to send input_regs to client\n");
+    Modbus_Server *MBS = NULL; // First pointer to one Server
+    while(true) {
+        printf("\n------------------------\n");
+        printf("Main Menu:\n"
+        "   1.  Create new Modbus Server\n"
+        "   2.  Modify Registers\n"
+        "   3.  Print DataBank\n"
+        "   4.  Listen to incoming connections\n"
+        "   5.  Close Server & Exit\n"
+        );
+        printf("------------------------\n");
+        int option;
+        printf("Enter your choose: \n");
+        scanf("%d",&option);
+        switch(option) {
+            case 1:
+            // Create new Modbus Server
+                printf("\n========================\n");
+                printf("\nCreate a new Modbus Server:\n");
+                // create new Modbus Server with new DataBank
+                int coils, discrete_inputs, inputs_registers, hoilding_registers = 0;
+                printf("Enter num of coils:\n");                scanf("%d",&coils);
+                printf("Enter num of discrete inputs:\n");      scanf("%d",&discrete_inputs);
+                printf("Enter num of inputs registers:\n");     scanf("%d",&inputs_registers);
+                printf("Enter num of hoilding_registers:\n");   scanf("%d",&hoilding_registers);
+                MBS = create_server(port, server_ip, coils,discrete_inputs,inputs_registers,hoilding_registers); 
+            break;
+
+            case 2:
+            // Modify databank registers
+                if(MBS != NULL) {
+                    printf("\n========================\n");
+                    modify_registers(MBS);
+                }
+                else {
+                    printf("Modbus Server hasn't created yet\n");
+                }
+                
+            break;
+
+            case 3:
+            // Print modbus server's databank
+                if (MBS != NULL) {
+                    print_databank(MBS);
+                }
+                else {
+                    printf("Modbus Server hasn't created yet\n");
+                }
+               
+            break;
+
+            case 4:
+            // Open server's listening socket for incoming TCP connections
+                if (MBS != NULL) {
+                    printf("Listen to new connection on port: %d\n", port);
+                    server_listen(MBS);
+                    connect_server(MBS);
+                }
+                else {
+                    printf("Modbus Server hasn't created yet\n");
+                }
+                break;
+            case 5:
+                close_server(MBS);
+                return 0;
+
+            default:
+                printf("Please enter a choice between 1-4\n");
+            break;
+        }
     }
-    printf("%ld bytes were sent to client\n", bytes);
-    close_server(MBS);
+
     return 0;
 }

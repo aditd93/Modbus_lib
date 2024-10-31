@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <errno.h>
 #include <unistd.h>
 #include <stdint.h>
@@ -26,6 +27,7 @@ typedef struct DataBank {
     bool *discrete_inputs;
     uint16_t *input_registers;
     uint16_t *holding_registers;
+    int coil_length, discrete_length, inputs_length, holding_length;
 } DataBank;
 
 typedef struct Modbus_Server {
@@ -51,6 +53,8 @@ Modbus_Server *create_server(int port, char *server_ip, int num_coils, int num_d
 void server_listen(Modbus_Server* mbs);
 int connect_server(Modbus_Server *mbs);
 void close_server(Modbus_Server *mbs);
+void print_databank(Modbus_Server *mbs);
+void modify_registers(Modbus_Server *mbs);
 
 
 #endif /* SERVER_HEADER_H_ */
