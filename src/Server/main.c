@@ -97,6 +97,7 @@ int main(int argc, char **argv) {
                 break;
             case 5:
                 close_server(MBS);
+                printf("Exit program\n");
                 return 0;
 
             default:
